@@ -49,7 +49,7 @@ python3 benchmark/run_tests.py
 - [x] UDP packet sent by VPN from one device to another  
 - [x] Basic UDP client–server communication established; packets can be sent both ways  
 - [x] Basic encryption/decryption method implemented for securing network traffic  
-- [ ] Authentication configured  
+- [x] Authentication  
 - [x] Performance testing conducted with iperf  
 - [ ] Functional prototype deployed  
 - [ ] User guides developed  
