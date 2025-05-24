@@ -54,7 +54,7 @@ do
     docker-compose up -d
     docker exec -itd ${dir}-client-10.9.0.5 env PYTHONPATH=/volumes python3 /volumes/client/client.py
     docker exec -itd ${dir}-server-router env PYTHONPATH=/volumes python3 /volumes/server/server.py
-    python3 benchmark/run_tests.py >> benchmark-output.txt
+    python3 benchmark/run_tests.py > /dev/null
     docker-compose kill
     docker-compose down
     popd

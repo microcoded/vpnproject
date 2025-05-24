@@ -45,5 +45,3 @@ def generate_self_signed_cert():
 
     with open("key.pem", "wb") as key_file:
         key_file.write(key_pem)
-
-

@@ -22,7 +22,7 @@ TUNSETIFF = 0x400454ca
 IFF_TUN   = 0x0001
 IFF_NO_PI = 0x1000
 TUN_IP = "192.168.53.98"
-SERVER_IP = "10.9.0.11"
+SERVER_IP = "0.0.0.0" # "10.9.0.11"
 QUIC_PORT = 4433
 
 ifname, tun = create_tun(TUNSETIFF, IFF_TUN, IFF_NO_PI)
@@ -69,6 +69,8 @@ async def vpn_server():
     generate_self_signed_cert()
     configuration = QuicConfiguration(
         is_client=False,
+        max_stream_data = 65536,
+        max_data=524288
     )
     configuration.load_cert_chain(certfile="cert.pem", keyfile="key.pem")
     server = await serve(

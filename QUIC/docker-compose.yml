@@ -53,12 +53,15 @@ services:
         sysctls:
                 - net.ipv4.ip_forward=1
         volumes:
-          - ./volumes:/volumes
+                - ./volumes:/volumes
+        ports:
+                - "4433:4433/udp"
         networks:
             net-10.9.0.0:
                 ipv4_address: 10.9.0.11
             net-192.168.60.0:
                 ipv4_address: 192.168.60.11
+            bridge: {}
         command: bash -c "
                       ip route del default  &&
                       ip route add default via 10.9.0.1 &&
@@ -78,3 +81,5 @@ networks:
             config:
                 - subnet: 10.9.0.0/24
 
+    bridge:
+        driver: bridge

@@ -9,6 +9,7 @@ from scapy.all import *
 from aioquic.asyncio import connect
 from aioquic.quic.configuration import QuicConfiguration
 from shared.create_tun import create_tun
+import argparse
 
 # Logging setup
 logging.basicConfig(
@@ -18,6 +19,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--host', default='10.9.0.11')
+parser.add_argument('--port', type=int, default=4433)
+args = parser.parse_args()
+
+SERVER_IP = args.host
 TUNSETIFF = 0x400454ca
 IFF_TUN   = 0x0001
 IFF_NO_PI = 0x1000
@@ -51,10 +58,12 @@ def tun_read_cb(writer):
 async def vpn_client():
     configuration = QuicConfiguration(
         is_client=True,
-        verify_mode=False
+        verify_mode=False,
+        max_stream_data = 65536,
+        max_data=524288
     )
 
-    async with connect("10.9.0.11", 4433, configuration=configuration) as connection:
+    async with connect(SERVER_IP, 4433, configuration=configuration) as connection:
         reader, writer = await connection.create_stream()
         loop = asyncio.get_running_loop()
         loop.add_reader(tun, tun_read_cb, writer)
